@@ -188,7 +188,7 @@
 
                     </div>
             
-                    <form action="{{route('messages.store')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{url('showfiles/')}}" method="post" >
                         @csrf
                         <input type="hidden" id="id" name="id">
                         <input type="submit" value="View Files">

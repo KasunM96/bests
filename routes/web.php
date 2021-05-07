@@ -36,6 +36,8 @@ Route::get('/user','UserController@index')->name('user')->middleware('user');
 Route::resource('users',"UserController");
 
 Route::resource('messages','MessageController');
+Route::get('/showfiles','FileController@showfiles');
+Route::post('/showfiles','FileController@showfiles');
 
 Route::get('/message-inbox','MessageController@inbox');
 Route::get('/userindex','MessageController@userindex');
