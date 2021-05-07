@@ -19,7 +19,10 @@ class ClientController extends Controller
     public function index()
     {
         //
-        $clients=Client::all();
+        $clients=DB::table('clients AS c')
+        ->join('users AS uf', 'uf.id', '=', 'c.user_id')
+        ->select(['c.name AS name','c.id AS id','c.address AS address','c.tp AS tp','c.email AS email','c.user_id AS user_id','uf.password AS password'])
+        ->get();
         return view('admin.client',compact('clients'));
     }
 
@@ -103,29 +106,31 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
-        $request->validate([
+        // dd($request);
+        $id=$request->get('user_id');
+        // $request->validate([
 
-            'name'=>'required',
-            'address'=>'required',
-            'tp'=>'required',
-            'email'=>'required',
-            'password'=>'required',
-            'role'=>'required'
-        ]);
+        //     'name'=>'required',
+        //     'address'=>'required',
+        //     'tp'=>'required',
+        //     'email'=>'required',
+        //     'password'=>'required',
+        //     'role'=>'required'
+        // ]);
         $client = Client::where('user_id',$id);       
-        $client->name = $request->get('name');
-        $client->email = $request->get('email');
-        $client->address = $request->get('address');
-        $client->tp = $request->get('tp');
+        $client->name = $request->get('name1');
+        $client->email = $request->get('email1');
+        $client->address = $request->get('address1');
+        $client->tp = $request->get('tp1');
         $client->save();
         
         $user = User::find($id);        
-        $user->name = $request->get('name');
-        $user->email = $request->get('email');
-        $user->password = $request->get('password');
+        $user->name = $request->get('name1');
+        $user->email = $request->get('email1');
+        $user->password = $request->get('password1');
         $user->save();
 
 

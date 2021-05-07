@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
-
+@section('styles')
+<link href="{{ asset('css/message.css') }}" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+@endsection
 
 @section('title')
 <title>User Dashboard</title>
@@ -14,8 +17,7 @@
             <div class="card-header">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="navbar-nav">
-                        
-                        <a class="nav-item nav-link" href="{{route('messages.index')}}">Message</a>
+                        <a class="nav-item nav-link active" href="{{route('messages.index')}}">Message</a>
                     </div>
                 </nav>
             </div>
@@ -27,6 +29,10 @@
                         </div>
                     @endif
 
+                    
+                    {{-- {{$user_data}} --}}
+                    
+                   
                 </div>
 
                
@@ -77,12 +83,6 @@
                 </div>
 
 
-                    
-                 
-
-                
-
-
 
 
             
@@ -93,27 +93,24 @@
 
 
 
-  
  
-
 
 @endsection
 
 @section('endscript')
 <script>
-    $(document).on("click","#edit-btn",function(){
-        var id=$(this).data("id");
-        var name=$(this).data("name");
-        var description=$(this).data("description");
-        var duration=$(this).data("duration");
+    // $(document).on("click","#edit-btn",function(){
+    //     var id=$(this).data("id");
+    //     var name=$(this).data("name");
+    //     var description=$(this).data("description");
+    //     var duration=$(this).data("duration");
 
-        $('#formId').attr('action', 'page1');
-        $("#id1").val(id);
-        $("#s_name1").val(name);
-        $("#s_description1").val(description);
-        $("#s_duration1").val(duration);
-        console.log(id);
-    });
+    //     $("#id1").val(id);
+    //     $("#s_name1").val(name);
+    //     $("#s_description1").val(description);
+    //     $("#s_duration1").val(duration);
+    //     console.log(id);
+    // });
 
 </script>
     

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\File;
 use App\Message;
 use App\Service;
 use App\User;
@@ -27,19 +28,83 @@ class MessageController extends Controller
         ->join('users AS uf', 'uf.id', '=', 'm.from')
         ->join('users AS ut', 'ut.id', '=', 'm.to')
         ->join('services AS s', 's.id', '=', 'm.s_id')
-        ->select(['uf.name AS from','ut.name AS to','m.subject AS subject','m.message AS message'])
+        ->select(['uf.name AS from','ut.name AS to','m.subject AS subject','m.message AS message','m.id AS id'])
         ->where('m.status',1)
         ->where('uf.status',1)
         ->where('ut.status',1)
+        ->where('m.from',Auth::id())
         ->get();
 
         // dd($messages);  
 
-        $users=User::all();
-        $services=Service::all();
+        $users=DB::table('users AS u')
+        ->where('u.id','<>',Auth::id())
+        ->get();
 
-        return view('message.index',compact('messages','users','services'));
+        $services=Service::all();
+        $files=File::all();
+
+        // if(Auth::user()->role==1)
         
+        return view('message.index',compact('messages','users','services','files'));
+        
+    }
+    public function userindex()
+    {
+        //
+        
+        $message=Message::all();
+
+        $messages=DB::table('messages AS m')
+        ->join('users AS uf', 'uf.id', '=', 'm.from')
+        ->join('users AS ut', 'ut.id', '=', 'm.to')
+        ->join('services AS s', 's.id', '=', 'm.s_id')
+        ->select(['uf.name AS from','ut.name AS to','m.subject AS subject','m.message AS message','m.id AS id'])
+        ->where('m.status',1)
+        ->where('uf.status',1)
+        ->where('ut.status',1)
+        ->where('m.from',Auth::id())
+        ->get();
+
+        // dd($messages);  
+
+        $users=DB::table('users AS u')
+        ->where('u.id','<>',Auth::id())
+        ->get();
+
+        $services=Service::all();
+        $files=File::all();
+
+        // if(Auth::user()->role==1)
+        
+        return view('user.index',compact('messages','users','services','files'));
+        
+    }
+    public function inbox()
+    {
+        $message=Message::all();
+
+        $messages=DB::table('messages AS m')
+        ->join('users AS uf', 'uf.id', '=', 'm.from')
+        ->join('users AS ut', 'ut.id', '=', 'm.to')
+        ->join('services AS s', 's.id', '=', 'm.s_id')
+        ->select(['uf.name AS from','ut.name AS to','m.subject AS subject','m.message AS message','m.id AS id'])
+        ->where('m.status',1)
+        ->where('uf.status',1)
+        ->where('ut.status',1)
+        ->where('m.to',Auth::id())
+        ->get();
+
+        // dd($messages);  
+
+        $users=DB::table('users AS u')
+        ->where('u.id','<>',Auth::id())
+        ->get();
+
+        $services=Service::all();
+        $files=File::all();
+
+        return view('message.inbox',compact('messages','users','services','files'));
     }
 
     /**
@@ -61,26 +126,44 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         
-        //
-        $request->validate([
-            'user'=>'required',
-            'service'=>'required',
-            'subject'=>'required',
-            'message'=>'required'
-        ]);  
+       
         
-              
-        $message = new Message([
-            'to' => $request->get('user'),
-            'from' => Auth::id(),
-            's_id' => $request->get('service'),
-            'subject' => $request->get('subject'),
-            'message' => $request->get('message')
-            
-        ]);
-
-        // dd($message);
+        
+        $message = new Message();
+        $message->to=$request->get('user');
+        $message->from=Auth::id();
+        $message->s_id=$request->get('service');
+        $message->subject=$request->get('subject');
+        $message->message=$request->get('message');
         $message->save();
+       
+        
+
+        if($request->hasFile('filesu'))
+        {
+            $message_id=$message->id;
+            $files=$request->file('filesu');
+            foreach ($files as $file){
+                $destinationPath = 'upload/';
+                
+                $name=time().'-'.$file->getClientOriginalName();
+                
+                // $extension=$file->getClientOriginalExtension();
+                $file->move($destinationPath,$name);
+                $ufiles= new File();
+                $ufiles->location= $name;
+                $ufiles->message_id= $message_id;
+                $ufiles->save();
+            }
+
+        }
+
+        
+       
+        
+
+        
+        
         return redirect('/messages')->with('success', 'Message sent!');
     }
 
@@ -127,5 +210,26 @@ class MessageController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function inboxx()
+    {
+        // dd($id);
+
+        $messages=DB::table('messages AS m')
+        ->join('users AS uf', 'uf.id', '=', 'm.from')
+        ->join('users AS ut', 'ut.id', '=', 'm.to')
+        ->join('services AS s', 's.id', '=', 'm.s_id')
+        ->select(['uf.name AS from','ut.name AS to','m.subject AS subject','m.message AS message'])
+        ->where('m.status',1)
+        ->where('uf.status',1)
+        ->where('ut.status',1)
+        ->get();
+
+        // dd($messages);  
+
+        $users=User::all();
+        $services=Service::all();
+
+        return view('message.inbox',compact('messages','users','services'));
     }
 }

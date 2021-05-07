@@ -55,8 +55,8 @@
                             <td>{{$client->email}}</td>
                             <td>{{$client->tp}}</td>
                             <td>
-                                <button id="edit-btn" class="btn btn-primary" data-target="#editmodal" data-toggle="modal" data-id="{{$client->id}}"  
-                                    data-name="{{$client->name}}" data-address="{{$client->address}}" data-tp="{{$client->tp}}" data-email="{{$client->email}}" >Edit</button>
+                                <button id="edit-btn" class="btn btn-primary" data-target="#editmodal" data-toggle="modal" data-userid="{{$client->user_id}}" data-id="{{$client->id}}"  
+                                    data-name="{{$client->name}}" data-address="{{$client->address}}" data-tp="{{$client->tp}}" data-email="{{$client->email}}" data-password="{{$client->password}}" >Edit</button>
                             </td>
                             <td>
                                 <form action="{{route('clients.destroy',$client->user_id)}}" method="POST">
@@ -133,8 +133,8 @@
   <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="post" action="{{ route('clients.update',$client->user_id) }}" >
-                @method('PATCH') 
+            <form method="post" action="{{url('client-update')}}" >
+                
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Clients Details</h5>
@@ -144,6 +144,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
+                        <input type="hidden"  id="user_id" name="user_id" >
                         <label for="name">Client's Name</label>
                         <input type="text" class="form-control" id="name1" name="name1" aria-describedby="emailHelp" placeholder="Enter Client's Name" required>
                     </div>
@@ -224,6 +225,7 @@
         var tp=$(this).data("tp");
         var email=$(this).data("email");
         var password=$(this).data("password");
+        var user_id=$(this).data("userid");
 
         $("#id1").val(id);
         $("#name1").val(name);
@@ -231,6 +233,7 @@
         $("#tp1").val(tp);
         $("#email1").val(email);
         $("#password1").val(password);
+        $("#user_id").val(user_id);
         console.log(id);
     });
 
