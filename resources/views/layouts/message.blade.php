@@ -181,19 +181,21 @@
                     
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
+                    <div class="card header">
                         <span id="m-box">  </span> : <span id="m-person"></span>
-                        <h5 id="m-subject"></h5>
-                        <p id="m-body"></p>
-
                     </div>
-            
-                    <form action="{{url('showfiles/')}}" method="post" >
-                        @csrf
-                        <input type="hidden" id="id" name="id">
-                        <input type="submit" value="View Files">
-                        
-                    </form>
+                    <div class="card text-center" >
+                            <div class="card-body">
+                            <h5 class="card-title" id="m-subject"></h5>
+                            <p class="card-text" id="m-body"></p>
+                            
+                            <form action="{{url('showfiles/')}}" method="post" >
+                                @csrf
+                                <input type="hidden" id="id" name="id">
+                                <input type="submit" value="View Files">
+                                
+                            </form>
+                        </div>
                 </div>
         </div>
     </div>

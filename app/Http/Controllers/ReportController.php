@@ -19,47 +19,60 @@ class ReportController extends Controller
         if(($client=='*') and ($service=='*') )
         {
             $reports=DB::table('messages AS m')
-            ->join('users AS uf', 'uf.id', '=', 'm.from')
+            // ->join('users AS uf', 'uf.id', '=', 'm.from')
             ->join('users AS ut', 'ut.id', '=', 'm.to')
             ->join('services AS s', 's.id', '=', 'm.s_id')
-            ->select(['uf.name AS from','ut.name AS to','m.subject AS subject','m.message AS message','m.id AS id'])
+            ->join('clients AS c', 'c.user_id', '=', 'ut.id')
+            ->select(['ut.name AS name','m.subject AS subject','m.message AS message','m.id AS id','c.address as address','c.tp as tp','c.email as email'])
             ->get();
+            // dd($reports);
+            $count=$reports->count();
+            
 
         }
         elseif(($client=='*') or ($service=='*'))
         {
+            
             if($client=='*')
             {
+                
                 $reports=DB::table('messages AS m')
-                ->join('users AS uf', 'uf.id', '=', 'm.from')
                 ->join('users AS ut', 'ut.id', '=', 'm.to')
                 ->join('services AS s', 's.id', '=', 'm.s_id')
-                ->select(['uf.name AS from','ut.name AS to','m.subject AS subject','m.message AS message','m.id AS id'])
-                ->where('m.s_id',$service)
+                ->join('clients AS c', 'c.user_id', '=', 'ut.id')
+                ->select(['ut.name AS name','m.subject AS subject','m.message AS message','m.id AS id','c.address as address','c.tp as tp','c.email as email'])
+                ->orWhere('m.s_id',$service)
                 ->get();
+                // dd($reports);
+                $count=$reports->count();
+                
             }
             if($service=='*')
             {
                 $reports=DB::table('messages AS m')
-                ->join('users AS uf', 'uf.id', '=', 'm.from')
                 ->join('users AS ut', 'ut.id', '=', 'm.to')
                 ->join('services AS s', 's.id', '=', 'm.s_id')
-                ->select(['uf.name AS from','ut.name AS to','m.subject AS subject','m.message AS message','m.id AS id'])
-                ->where('m.s_id',$service)
+                ->join('clients AS c', 'c.user_id', '=', 'ut.id')
+                ->select(['ut.name AS name','m.subject AS subject','m.message AS message','m.id AS id','c.address as address','c.tp as tp','c.email as email'])
+                ->orWhere('m.to',$client)
                 ->get();
+                $count=$reports->count();
+
 
             }
         }
         else
         {
             $reports=DB::table('messages AS m')
-            ->join('users AS uf', 'uf.id', '=', 'm.from')
             ->join('users AS ut', 'ut.id', '=', 'm.to')
             ->join('services AS s', 's.id', '=', 'm.s_id')
-            ->select(['uf.name AS from','ut.name AS to','m.subject AS subject','m.message AS message','m.id AS id'])
-            ->where('m.to',$client)
+            ->join('clients AS c', 'c.user_id', '=', 'ut.id')
+            ->select(['ut.name AS name','m.subject AS subject','m.message AS message','m.id AS id','c.address as address','c.tp as tp','c.email as email'])
+            ->orWhere('m.to',$client)
             ->orWhere('m.s_id',$service)
             ->get();
+            $count=$reports->count();
+
 
         }
 
@@ -72,7 +85,7 @@ class ReportController extends Controller
         $services=Service::all();
         $clients=Client::all();
         // dd($clients);
-        return view('admin.report',compact('reports','clients','services'));
+        return view('admin.report',compact('reports','clients','services','count'));
        
     }
     
@@ -81,15 +94,14 @@ class ReportController extends Controller
         
         
         $reports=DB::table('messages AS m')
-        ->join('users AS uf', 'uf.id', '=', 'm.from')
+        // ->join('users AS uf', 'uf.id', '=', 'm.from')
         ->join('users AS ut', 'ut.id', '=', 'm.to')
         ->join('services AS s', 's.id', '=', 'm.s_id')
-        ->select(['uf.name AS from','ut.name AS to','m.subject AS subject','m.message AS message','m.id AS id'])
-        ->where('m.status',1)
-        ->where('uf.status',1)
-        ->where('ut.status',1)
-        ->where('m.from',Auth::id())
+        ->join('clients AS c', 'c.user_id', '=', 'ut.id')
+        ->select(['ut.name AS name','m.subject AS subject','m.message AS message','m.id AS id','c.address as address','c.tp as tp','c.email as email'])
         ->get();
+        // dd($reports);
+        $count=$reports->count();
 
         // dd($reports);  
 
@@ -97,7 +109,7 @@ class ReportController extends Controller
         $services=Service::all();
         $clients=Client::all();
         // dd($clients);
-        return view('admin.report',compact('reports','clients','services'));
+        return view('admin.report',compact('reports','clients','services','count'));
        
     }
 }

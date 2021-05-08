@@ -49,7 +49,7 @@
                         @endforeach
                     </select>
 
-                    <input type="submit" value="Filter">
+                    <input type="submit" class="btn btn-success" value="Filter"> Results <span class="badge badge-info">  <h6>{{$count}}</h6></span>
                     
                     
                 </form>
@@ -62,7 +62,9 @@
                         <td>ID</td>
                         <td>Subject</td>
                         <td>Message</td>
-                        <td>Send A Message</td>
+                        <td>email</td>
+                        <td>Telephone</td>
+                        <td>Address</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,6 +73,9 @@
                         <td>{{$report->id}}</td>
                         <td>{{$report->subject}}</td>
                         <td>{{$report->message}}</td>
+                        <td>{{$report->email}}</td>
+                        <td>{{$report->tp}}</td>
+                        <td>{{$report->address}}</td>
 
                     </tr>
                         
