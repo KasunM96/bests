@@ -26,7 +26,7 @@
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="{{route('services.index')}}">Services</a>
                     <a class="nav-item nav-link" href="{{route('clients.index')}}">Clients </a>
-                    <a class="nav-item nav-link" href="#">Reports</a>
+                    <a class="nav-item nav-link" href="{{url('viewr/')}}">Reports</a>
                     <a class="nav-item nav-link active" href="{{route('messages.index')}}">Message</a>
                 </div>
             </nav>

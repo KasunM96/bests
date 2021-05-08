@@ -42,6 +42,10 @@ Route::post('/showfiles','FileController@showfiles');
 Route::get('/message-inbox','MessageController@inbox');
 Route::get('/userindex','MessageController@userindex');
 
+Route::get('/reports','ReportController@getreport');
+Route::get('/viewr','ReportController@viewr');
+Route::post('/reports','ReportController@getreport');
+
 
 Route::get('/demo',function(){
     return view('demo');

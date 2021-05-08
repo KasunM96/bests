@@ -16,7 +16,7 @@
                     <div class="navbar-nav">
                         <a class="nav-item nav-link" href="{{route('services.index')}}">Services</a>
                         <a class="nav-item nav-link active" href="{{route('clients.index')}}">Clients </a>
-                        <a class="nav-item nav-link" href="#">Reports</a>
+                        <a class="nav-item nav-link" href="{{url('viewr/')}}">Reports</a>
                         <a class="nav-item nav-link" href="{{route('messages.index')}}">Message</a>
                     </div>
                 </nav>
@@ -56,7 +56,7 @@
                             <td>{{$client->tp}}</td>
                             <td>
                                 <button id="edit-btn" class="btn btn-primary" data-target="#editmodal" data-toggle="modal" data-userid="{{$client->user_id}}" data-id="{{$client->id}}"  
-                                    data-name="{{$client->name}}" data-address="{{$client->address}}" data-tp="{{$client->tp}}" data-email="{{$client->email}}" data-password="{{$client->password}}" >Edit</button>
+                                    data-name="{{$client->name}}" data-address="{{$client->address}}" data-tp="{{$client->tp}}" data-email="{{$client->email}}"  >Edit</button>
                             </td>
                             <td>
                                 <form action="{{route('clients.destroy',$client->user_id)}}" method="POST">
@@ -160,10 +160,10 @@
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email1" name="email1" aria-describedby="emailHelp" placeholder="Add Email" required>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" class="form-control" id="password1" name="password1" aria-describedby="emailHelp" placeholder="Add New Password" required>
-                    </div>
+                    </div> --}}
                     
     
                 </div>

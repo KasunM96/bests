@@ -99,8 +99,8 @@ class ServiceController extends Controller
         $service = Service::find($id);
         // dd($service);
         $service->s_name = $request->get('s_name1');
-        $service->s_description = $request->get('s_duration1');
-        $service->s_duration = $request->get('s_description1');
+        $service->s_description = $request->get('s_description1');
+        $service->s_duration = $request->get('s_duration1');
         $service->save();
 
         return redirect('/admin')->with('success','Service saved');

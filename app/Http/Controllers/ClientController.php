@@ -21,7 +21,7 @@ class ClientController extends Controller
         //
         $clients=DB::table('clients AS c')
         ->join('users AS uf', 'uf.id', '=', 'c.user_id')
-        ->select(['c.name AS name','c.id AS id','c.address AS address','c.tp AS tp','c.email AS email','c.user_id AS user_id','uf.password AS password'])
+        ->select(['c.name AS name','c.id AS id','c.address AS address','c.tp AS tp','c.email AS email','c.user_id AS user_id'])
         ->get();
         return view('admin.client',compact('clients'));
     }
@@ -120,17 +120,19 @@ class ClientController extends Controller
         //     'password'=>'required',
         //     'role'=>'required'
         // ]);
-        $client = Client::where('user_id',$id);       
+        $client = Client::where('user_id',$id)->first();       
         $client->name = $request->get('name1');
         $client->email = $request->get('email1');
         $client->address = $request->get('address1');
         $client->tp = $request->get('tp1');
         $client->save();
+
+        // dd($client);
         
         $user = User::find($id);        
         $user->name = $request->get('name1');
         $user->email = $request->get('email1');
-        $user->password = $request->get('password1');
+        // $user->password = $request->get('password1');
         $user->save();
 
 
