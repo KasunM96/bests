@@ -86,7 +86,7 @@
 <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="{{route('clients.store')}}" method="post">
+            <form action="{{route('clients.store')}}" method="post" name="addclient">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Add New Clients</h5>
@@ -95,25 +95,32 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="name">Client's Name</label>
-                        <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp" placeholder="Enter Client's Name" required>
+                    <label for="name">Client's Name</label>
+                    <div class="form-group">                        
+                        
+                                         
+                        <input type="text" class="form-control" id="name_c" name="name" aria-describedby="emailHelp" aria-describedby="validationTooltipUsernamePrepend" placeholder="Enter Client's Name" required>
+                        <span class="err_form" id="name_error"> Hello</span>
                     </div>
                     <div class="form-group">
                         <label for="address">Client's Address</label>
-                        <input type="text" class="form-control" id="address" name="address" aria-describedby="emailHelp" placeholder="Enter Client's Address" required>
+                        <input type="text" class="form-control" id="address_c" name="address" aria-describedby="emailHelp" placeholder="Enter Client's Address" required>
+                        <span class="err_form" id="address_error"></span>
                     </div>
                     <div class="form-group">
                         <label for="tp">Telephone Number</label>
-                        <input type="text" class="form-control" id="tp" name="tp" aria-describedby="emailHelp" placeholder="Add Telephone Number" required>
+                        <input type="text" class="form-control" id="tp_c" name="tp" aria-describedby="emailHelp" placeholder="Add Telephone Number" required>
+                        <span class="err_form" id="tp_error"></span>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Add Email" required>
+                        <input type="email" class="form-control" id="email_c" name="email" aria-describedby="emailHelp" placeholder="Add Email" required>
+                        <span class="err_form" id="email_error"></span>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" aria-describedby="emailHelp" placeholder="Add Password" required>
+                        <input type="password" class="form-control" id="password_c" name="password" aria-describedby="emailHelp" placeholder="Add Password" required>
+                        <span class="err_form" id="pwd_error"></span>
                     </div>
                     <input type="hidden" id="role" name="role" value="2">
                     
@@ -133,7 +140,7 @@
   <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="post" action="{{url('client-update')}}" >
+            <form method="post" action="{{url('client-update')}}"  >
                 
                 @csrf
                 <div class="modal-header">
@@ -175,43 +182,7 @@
         </div>
     </div>
 </div>
-  {{-- <!--Edit Modal -->
-<div class="modal fade" id="editmodal" tabindex="-1" role="document" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form action="{{route('services.update',$service->id)}}" method="post">
-                @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Product Or Service</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                        <input type="hidden" id="id1" name="id1">
-                    <div class="form-group">
-                        <label for="s_name">Service or Product Name</label>
-                        <input type="text" class="form-control" id="s_name1" name="s_name1"  aria-describedby="emailHelp" placeholder="Enter Service or Product name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="s_duration">Approximate Delivery Time</label>
-                        <input type="text" class="form-control" id="s_duration1" name="s_duration1"   aria-describedby="emailHelp" placeholder="Enter Approximate Duration" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="s_description">Description</label>
-                        <input type="textarea" class="form-control" id="s_description1" name="s_description1"   aria-describedby="emailHelp" placeholder="Add Short Description" required>
-                    </div>
-    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary" value="Save changes">
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-  --}}
+ 
 
 
 @endsection
@@ -237,6 +208,187 @@
         console.log(id);
     });
 
+    $(function(){
+        $("#name_error").hide();
+        $("#address_error").hide();
+        $("#email_error").hide();
+        $("#tp_error").hide();
+        $("#pwd_error").hide();
+
+        var error_name= false;
+        var error_address= false;
+        var error_email= false;
+        var error_tp= false;
+        var error_pwd= false;
+
+        $("#name_c").focusout(function(){
+            check_name();
+
+        });
+        $("#address_c").focusout(function(){
+            check_address();
+        });
+        $("#email_c").focusout(function(){
+            check_email();
+        });
+        $("#tp_c").focusout(function(){
+            check_tp();
+        });
+        $("#password_c").focusout(function(){
+            check_password();
+        });
+
+
+        function check_name(){
+
+            var pattern= /^[a-zA-Z]*$/;
+            var name= $("#name_c").val();
+            console.log(name);
+            if(name==""){
+                $("#name_c").css('border-color','red');
+                error_name= "Enter client's business name";
+                $("#name_error").html(error_name);
+                $("#name_error").css('color','red');
+                $("#name_error").show();
+
+            } else {
+                $("#name_c").css('border-color','green');
+                error_name= "Perfect";
+                $("#name_error").html(error_name);
+                $("#name_error").css('color','green');
+                $("#name_error").show();
+
+            }
+            
+            // if(pattern.test(name) && (name !=='')){
+            //     $("#name_error").hide();
+            //     // $("#name").hide();
+            // }else{
+            //     $("#name_error").html("should only include chars");
+            //     $("#name_error").show();
+            //     // $("#name").show();
+            //     error_name=true;
+        }
+
+        function check_address(){
+            
+            var address= $("#address_c").val();
+  
+            if(address==""){
+                $("#address_c").css('border-color','red');
+                var error_address= "Enter client's address";
+                $("#address_error").html(error_address);
+                $("#address_error").css('color','red');
+                $("#address_error").show();
+
+            } else {
+                $("#address_c").css('border-color','green');
+                var error_address= "Perfect";
+                $("#address_error").html(error_address);
+                $("#address_error").css('color','green');
+                $("#address_error").show();
+
+            }
+            
+        }         
+        
+        
+        function check_tp(){
+            
+            var tp= $("#tp_c").val();
+            var pattern= /[0-9 -()+]+$/;
+         
+            if(tp==""){
+                $("#tp_c").css('border-color','red');
+                var error_tp= "Enter client's Telephone number";
+                $("#tp_error").html(error_tp);
+                $("#tp_error").css('color','red');
+                $("#tp_error").show();
+
+            }
+            else if((tp.length!=10) || (!pattern.test(tp)) ){
+                $("#tp_c").css('border-color','red');
+                var error_tp= "Enter a Valid Number";
+                $("#tp_error").html(error_tp);
+                $("#tp_error").css('color','red');
+                $("#tp_error").show();
+
+            }
+             else {
+                $("#tp_c").css('border-color','green');
+                var error_tp= "Perfect";
+                $("#tp_error").html(error_tp);
+                $("#tp_error").css('color','green');
+                $("#tp_error").show();
+
+            }
+            
+        }
+        
+        function check_email(){
+            
+            var email= $("#email_c").val();
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+         
+            if(email==""){
+                $("#email_c").css('border-color','red');
+                var error_email= "Enter client's Email address";
+                $("#email_error").html(error_email);
+                $("#email_error").css('color','red');
+                $("#email_error").show();
+
+            }
+            else if(!mailformat.test(email)) {
+                $("#email_c").css('border-color','red');
+                var error_email= "Enter a Valid Email";
+                $("#email_error").html(error_email);
+                $("#email_error").css('color','red');
+                $("#email_error").show();
+
+            }
+             else {
+                $("#email_c").css('border-color','green');
+                var error_email= "Perfect";
+                $("#email_error").html(error_email);
+                $("#email_error").css('color','green');
+                $("#email_error").show();
+
+            }
+            
+        }
+
+        function check_password(){
+            
+            var password= $("#password_c").val();
+  
+            
+            if((password=="")||(password.length<5)) {
+                $("#password_c").css('border-color','red');
+                var error_pwd= "Enter at least 5 characters ";
+                $("pwd_error").show();
+                $("pwd_error").html(error_pwd);
+                $("pwd_error").css('color','red');
+                
+            }
+            
+            else {
+                $("#password_c").css('border-color','green');
+                var error_pwd= "Perfect";
+                $("#pwd_error").html(error_pwd);
+                $("#pwd_error").css('color','green');
+                $("#pwd_error").show();
+
+            }
+            
+        }                 
+     
+
+       
+        
+    });
+    
+
+   
 </script>
     
 @endsection
