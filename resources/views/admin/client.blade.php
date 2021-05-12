@@ -12,6 +12,8 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card-header">
+
+                @if (Auth::user()->role==1)
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link" href="{{route('services.index')}}">Services</a>
@@ -20,6 +22,20 @@
                         <a class="nav-item nav-link" href="{{route('messages.index')}}">Message</a>
                     </div>
                 </nav>
+                    
+                @endif
+                @if (Auth::user()->role==2)
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link active" href="{{route('clients.index')}}">Clients </a>
+                        <a class="nav-item nav-link " href="{{url('email/')}}">Email</a>
+                        {{-- <a class="nav-item nav-link active" href="{{route('messages.index')}}">Message</a> --}}
+                        
+                    </div>
+                </nav>
+                    
+                @endif
+               
             </div>
 
                 <div class="card-body">

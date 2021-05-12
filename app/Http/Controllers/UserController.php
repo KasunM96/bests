@@ -39,6 +39,6 @@ class UserController extends Controller
 
         // if(Auth::user()->role==1)
         
-        return view('message.index',compact('messages','users','services','files'));
+        return view('email.send',compact('messages','users','services','files'));
     }
 }

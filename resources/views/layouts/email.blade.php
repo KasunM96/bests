@@ -35,7 +35,9 @@
             @if (Auth::user()->role==2)
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="{{route('messages.index')}}">Message</a>
+                    <a class="nav-item nav-link" href="{{route('clients.index')}}">Clients </a>
+                    <a class="nav-item nav-link active" href="{{url('email/')}}">Email</a>
+                    
                 </div>
             </nav>
                 
