@@ -11,7 +11,7 @@
                 data-subject="{{$message->subject}}" data-body="{{$message->message}}" data-box="From">
 
                  <div class="header">
-                     <span class="action"><i class="fa fa-square-o"></i><i class="fa fa-square"></i></span> 
+                     <span class="action"><i class="fa fa-trash-alt"></i></span> 
                      <span class="from">{{$message->from}}</span>
                      <span class="date"><span class="fa fa-paper-clip"></span> Today, 3:47 PM</span>
                  </div>

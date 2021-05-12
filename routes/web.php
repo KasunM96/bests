@@ -50,3 +50,14 @@ Route::post('/reports','ReportController@getreport');
 Route::get('/demo',function(){
     return view('demo');
 });
+
+
+Route::get('/email','MailController@index');
+
+Route::get('sendbasicemail','MailController@basic_email');
+Route::get('sendhtmlemail','MailController@html_email');
+Route::get('sendattachmentemail','MailController@attachment_email');
+
+Route::post('sendbasicemail','MailController@basic_email');
+Route::post('sendhtmlemail','MailController@html_email');
+Route::post('sendattachmentemail','MailController@attachment_email');
