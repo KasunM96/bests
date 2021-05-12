@@ -30,10 +30,11 @@ Route::resource('clients', 'ClientController');
 
 
 
-
 Route::get('/user','UserController@index')->name('user')->middleware('user');
+Route::get('/user-view','UserController@view');
 // Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('users',"UserController");
+Route::post('/user-update',"UserController@update");
 
 Route::resource('messages','MessageController');
 Route::get('/showfiles','FileController@showfiles');

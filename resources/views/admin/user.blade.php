@@ -3,18 +3,7 @@
 
 
 @section('title')
-    @if (Auth::user()->id==1)
-
-        <title>Admin Dashboard</title>
-        
-    @endif
-    
-    @if (Auth::user()->id==2)
-
-        <title>User Dashboard</title>
-        
-    @endif
-
+<title>Admin Dashboard</title>
 @endsection
 
 
@@ -24,31 +13,20 @@
         <div class="col-md-10">
             <div class="card-header">
 
-                @if (Auth::user()->role==1)
+               
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link" href="{{route('services.index')}}">Services</a>
-                        <a class="nav-item nav-link" href="{{url('user-view/')}}">Users</a>
-                        <a class="nav-item nav-link active" href="{{route('clients.index')}}">Clients </a>
+                        <a class="nav-item nav-link active" href="{{url('user-view/')}}">Users</a>
+                        <a class="nav-item nav-link " href="{{route('clients.index')}}">Clients </a>
                         <a class="nav-item nav-link" href="{{url('viewr/')}}">Reports</a>
                         <a class="nav-item nav-link" href="{{route('messages.index')}}">Message</a>
-                    </div>
-                </nav>
-                    
-                @endif
-                @if (Auth::user()->role==2)
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="navbar-nav">
-                        <a class="nav-item nav-link active" href="{{route('clients.index')}}">Clients </a>
-                        <a class="nav-item nav-link " href="{{url('email/')}}">Email</a>
-                        <a class="nav-item nav-link" href="{{route('messages.index')}}">Message</a>
-
-                        {{-- <a class="nav-item nav-link active" href="{{route('messages.index')}}">Message</a> --}}
                         
                     </div>
                 </nav>
                     
-                @endif
+                
+               
                
             </div>
 
@@ -61,8 +39,8 @@
 
                     
                     {{-- {{$user_data}} --}}
-                    <h4>Click here to add a Client</h4>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal" >Add Client</button>
+                    <h4>Click here to add an User</h4>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#addmodal" >Add User</button>
                 </div>
 
                 <table class="table table-tripped">
@@ -70,26 +48,24 @@
                         <tr>
                             <td>ID</td>
                             <td>Name</td>
-                            <td>Address</td>
                             <td>Email</td>
-                            <td>Telephone Number</td>
+                            <td>Password</td>
                             <td colspan="2">Actions</td>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($clients as $client)
+                        @foreach ($users as $user)
                         <tr>
-                            <td>{{$client->id}}</td>
-                            <td>{{$client->name}}</td>
-                            <td>{{$client->address}}</td>
-                            <td>{{$client->email}}</td>
-                            <td>{{$client->tp}}</td>
+                            <td>{{$user->id}}</td>
+                            <td>{{$user->name}}</td>
+                            <td>{{$user->email}}</td>
+                           
                             <td>
-                                <button id="edit-btn" class="btn btn-primary" data-target="#editmodal" data-toggle="modal"  data-id="{{$client->id}}"  
-                                    data-name="{{$client->name}}" data-address="{{$client->address}}" data-tp="{{$client->tp}}" data-email="{{$client->email}}"  >Edit</button>
+                                <button id="edit-btn" class="btn btn-primary" data-target="#editmodal" data-toggle="modal"  data-id="{{$user->id}}"  
+                                    data-name="{{$user->name}}" data-email="{{$user->email}}"  >Edit</button>
                             </td>
                             <td>
-                                <form action="{{route('clients.destroy',$client->id)}}" method="POST">
+                                <form action="{{route('users.destroy',$user->id)}}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger" type="submit">Delete</button>
@@ -116,36 +92,29 @@
 <div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form action="{{route('clients.store')}}" method="post" name="addclient">
+            <form action="{{route('users.store')}}" method="post" name="addclient">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Clients</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add New Users</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <label for="name">Client's Name</label>
-                    <div class="form-group">                        
-                        
-                                         
+                    <label for="name">User's Name</label>
+                    <div class="form-group">                                       
                         <input type="text" class="form-control" id="name_c" name="name" aria-describedby="emailHelp" aria-describedby="validationTooltipUsernamePrepend" placeholder="Enter Client's Name" required>
-                        <span class="err_form" id="name_error"> Hello</span>
+                        <span class="err_form" id="name_error"> </span>
                     </div>
-                    <div class="form-group">
-                        <label for="address">Client's Address</label>
-                        <input type="text" class="form-control" id="address_c" name="address" aria-describedby="emailHelp" placeholder="Enter Client's Address" required>
-                        <span class="err_form" id="address_error"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="tp">Telephone Number</label>
-                        <input type="text" class="form-control" id="tp_c" name="tp" aria-describedby="emailHelp" placeholder="Add Telephone Number" required>
-                        <span class="err_form" id="tp_error"></span>
-                    </div>
+  
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email_c" name="email" aria-describedby="emailHelp" placeholder="Add Email" required>
                         <span class="err_form" id="email_error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password1" name="password1" aria-describedby="emailHelp" placeholder="Add New Password" required>
                     </div>                  
                     <input type="hidden" id="role" name="role" value="2">
                     
@@ -165,8 +134,7 @@
   <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form method="post" action="{{url('client-update')}}"  >
-                
+            <form method="post" action="{{url('user-update/')}}">  
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Clients Details</h5>
@@ -179,15 +147,7 @@
                         <input type="hidden"  id="user_id" name="id" >
                         <label for="name">Client's Name</label>
                         <input type="text" class="form-control" id="name1" name="name1" aria-describedby="emailHelp" placeholder="Enter Client's Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Client's Address</label>
-                        <input type="text" class="form-control" id="address1" name="address1" aria-describedby="emailHelp" placeholder="Enter Client's Address" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="tp">Telephone Number</label>
-                        <input type="text" class="form-control" id="tp1" name="tp1" aria-describedby="emailHelp" placeholder="Add Telephone Number" required>
-                    </div>
+                    </div>                  
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email1" name="email1" aria-describedby="emailHelp" placeholder="Add Email" required>

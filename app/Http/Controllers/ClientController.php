@@ -20,8 +20,7 @@ class ClientController extends Controller
     {
         //
         $clients=DB::table('clients AS c')
-        ->join('users AS uf', 'uf.id', '=', 'c.user_id')
-        ->select(['c.name AS name','c.id AS id','c.address AS address','c.tp AS tp','c.email AS email','c.user_id AS user_id'])
+        ->select(['c.name AS name','c.id AS id','c.address AS address','c.tp AS tp','c.email AS email'])
         ->get();
         return view('admin.client',compact('clients'));
     }
@@ -44,15 +43,16 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         //
-        $request->validate([
-            'name'=>'required',
-            'address'=>'required',
-            'tp'=>'required',
-            'email'=>'required',
-            'password'=>'required',
-            'role'=>'required'
-        ]);
+        // $request->validate([
+        //     'name'=>'required',
+        //     'address'=>'required',
+        //     'tp'=>'required',
+        //     'email'=>'required',
+        //     'password'=>'required',
+        //     'role'=>'required'
+        // ]);
 
         $client= new Client([
             'name'=>$request->get('name'),
@@ -60,17 +60,8 @@ class ClientController extends Controller
             'address'=>$request->get('address'),
             'tp'=>$request->get('tp'),
         ]);
-        $user = new User([
-            'name'=>$request->get('name'),
-            'email'=>$request->get('email'),
-            $pwd=$request->get('password'),
-            'password'=>Hash::make($pwd),
-            'role'=>$request->get('role')
-
-        ]);
-        $user->save();        
-        $user=User::find($user->id);
-        $user->client()->save($client);
+        
+        $client->save();
         
 
         return redirect('/clients')->with('success', 'Service saved!');
@@ -110,7 +101,7 @@ class ClientController extends Controller
     {
         //
         // dd($request);
-        $id=$request->get('user_id');
+        $id=$request->get('id');
         // $request->validate([
 
         //     'name'=>'required',
@@ -120,7 +111,7 @@ class ClientController extends Controller
         //     'password'=>'required',
         //     'role'=>'required'
         // ]);
-        $client = Client::where('user_id',$id)->first();       
+        $client = Client::where('id',$id)->first();       
         $client->name = $request->get('name1');
         $client->email = $request->get('email1');
         $client->address = $request->get('address1');
@@ -129,11 +120,7 @@ class ClientController extends Controller
 
         // dd($client);
         
-        $user = User::find($id);        
-        $user->name = $request->get('name1');
-        $user->email = $request->get('email1');
-        // $user->password = $request->get('password1');
-        $user->save();
+        
 
 
 
@@ -148,11 +135,9 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $user = User::find($id);
-        $user->delete();
+        //       
 
-        $client = Client::where('user_id',$id);
+        $client = Client::where('id',$id);
         $client->delete();
 
         // $client=Client::find($id);

@@ -15,6 +15,7 @@
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link" href="{{route('services.index')}}">Services</a>
+                        <a class="nav-item nav-link" href="{{url('user-view/')}}">Users</a>
                         <a class="nav-item nav-link " href="{{route('clients.index')}}">Clients </a>
                         <a class="nav-item nav-link active" href="{{url('viewr/')}}">Reports</a>
                         <a class="nav-item nav-link" href="{{route('messages.index')}}">Message</a>
@@ -36,7 +37,7 @@
                     <h6>Select a Client .....    Select a Service</h6>  <select name="client" id="client">
                             <option value="*">All</option>
                         @foreach ($clients as $client)
-                            <option value="{{$client->user_id}}">{{$client->name}}</option>
+                            <option value="{{$client->id}}">{{$client->name}}</option>
                             
                         @endforeach
                     </select>

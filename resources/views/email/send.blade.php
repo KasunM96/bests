@@ -23,7 +23,7 @@ Send emails
                         <div class="col-sm-4">
                               <select class="form-control input" name="to_sel" id="to_sel" >
                                     <option selected disabled>Please select a Client</option>
-                                    @foreach($users as $user)
+                                    @foreach($clients as $user)
                                     <option value="{{$user->id}}" email="{{$user->email}}">{{$user->name}}</option>
                                     @endforeach
                               </select>
@@ -40,7 +40,7 @@ Send emails
                   <div class="col-sm-4">
                         <select class="form-control input" name="cc_sel" id="cc_sel" >
                               <option selected disabled>Please select a Client</option>
-                              @foreach($users as $user)
+                              @foreach($clients as $user)
                               <option value="{{$user->id}}" email="{{$user->email}}">{{$user->name}}</option>
                               @endforeach
                         </select>

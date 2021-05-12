@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
 use App\MailReport;
 use App\Service;
 use Illuminate\Http\Request;
@@ -22,8 +23,9 @@ class MailController extends Controller
       ->where('u.id','<>',Auth::id())
       ->get();
       $services=Service::all();
+      $clients=Client::all();
 
-      return view('email.send',compact('users','services'));
+      return view('email.send',compact('users','services','clients'));
 
     }
 
@@ -46,6 +48,7 @@ class MailController extends Controller
            $message->from('ksmredx@gmail.com','Virat Gandhi');
         });
         echo "HTML Email Sent. Check your inbox.";
+       
      }
 
      public function attachment_email(Request $request) {
@@ -95,5 +98,6 @@ class MailController extends Controller
       //      $message->from('ksmredx@gmail.com','Virat Gandhi');
         });
         echo "Email Sent with attachment. Check your inbox.";
+        return redirect('/email')->with('success', 'Service saved!');
      }
 }

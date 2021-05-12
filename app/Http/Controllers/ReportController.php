@@ -18,14 +18,14 @@ class ReportController extends Controller
         // dd($client);
         if(($client=='*') and ($service=='*') )
         {
-            $reports=DB::table('messages AS m')
+            $reports=DB::table('mail_reports AS m')
             // ->join('users AS uf', 'uf.id', '=', 'm.from')
-            ->join('users AS ut', 'ut.id', '=', 'm.to')
+            ->join('users AS ut', 'ut.id', '=', 'm.from')
+            ->join('clients AS c', 'c.id', '=', 'm.to')
             ->join('services AS s', 's.id', '=', 'm.s_id')
-            ->join('clients AS c', 'c.user_id', '=', 'ut.id')
             ->select(['ut.name AS name','m.subject AS subject','m.message AS message','m.id AS id','c.address as address','c.tp as tp','c.email as email'])
             ->get();
-            // dd($reports);
+            // dd($request);
             $count=$reports->count();
             
 
@@ -34,12 +34,13 @@ class ReportController extends Controller
         {
             
             if($client=='*')
-            {
+            { 
                 
-                $reports=DB::table('messages AS m')
-                ->join('users AS ut', 'ut.id', '=', 'm.to')
+                $reports=DB::table('mail_reports AS m')
+                // ->join('users AS uf', 'uf.id', '=', 'm.from')
+                ->join('users AS ut', 'ut.id', '=', 'm.from')
+                ->join('clients AS c', 'c.id', '=', 'm.to')
                 ->join('services AS s', 's.id', '=', 'm.s_id')
-                ->join('clients AS c', 'c.user_id', '=', 'ut.id')
                 ->select(['ut.name AS name','m.subject AS subject','m.message AS message','m.id AS id','c.address as address','c.tp as tp','c.email as email'])
                 ->orWhere('m.s_id',$service)
                 ->get();
@@ -49,10 +50,12 @@ class ReportController extends Controller
             }
             if($service=='*')
             {
-                $reports=DB::table('messages AS m')
-                ->join('users AS ut', 'ut.id', '=', 'm.to')
+                
+                $reports=DB::table('mail_reports AS m')
+                // ->join('users AS uf', 'uf.id', '=', 'm.from')
+                ->join('users AS ut', 'ut.id', '=', 'm.from')
+                ->join('clients AS c', 'c.id', '=', 'm.to')
                 ->join('services AS s', 's.id', '=', 'm.s_id')
-                ->join('clients AS c', 'c.user_id', '=', 'ut.id')
                 ->select(['ut.name AS name','m.subject AS subject','m.message AS message','m.id AS id','c.address as address','c.tp as tp','c.email as email'])
                 ->orWhere('m.to',$client)
                 ->get();
@@ -63,10 +66,11 @@ class ReportController extends Controller
         }
         else
         {
-            $reports=DB::table('messages AS m')
-            ->join('users AS ut', 'ut.id', '=', 'm.to')
+            $reports=DB::table('mail_reports AS m')
+            // ->join('users AS uf', 'uf.id', '=', 'm.from')
+            ->join('users AS ut', 'ut.id', '=', 'm.from')
+            ->join('clients AS c', 'c.id', '=', 'm.to')
             ->join('services AS s', 's.id', '=', 'm.s_id')
-            ->join('clients AS c', 'c.user_id', '=', 'ut.id')
             ->select(['ut.name AS name','m.subject AS subject','m.message AS message','m.id AS id','c.address as address','c.tp as tp','c.email as email'])
             ->orWhere('m.to',$client)
             ->orWhere('m.s_id',$service)
@@ -93,11 +97,11 @@ class ReportController extends Controller
     {
         
         
-        $reports=DB::table('messages AS m')
+        $reports=DB::table('mail_reports AS m')
         // ->join('users AS uf', 'uf.id', '=', 'm.from')
-        ->join('users AS ut', 'ut.id', '=', 'm.to')
+        ->join('users AS ut', 'ut.id', '=', 'm.from')
+        ->join('clients AS c', 'c.id', '=', 'm.to')
         ->join('services AS s', 's.id', '=', 'm.s_id')
-        ->join('clients AS c', 'c.user_id', '=', 'ut.id')
         ->select(['ut.name AS name','m.subject AS subject','m.message AS message','m.id AS id','c.address as address','c.tp as tp','c.email as email'])
         ->get();
         // dd($reports);

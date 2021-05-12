@@ -13,7 +13,7 @@ class Client extends Model
     'address',
     'tp',
     'email',
-    'idfrommain'
+    
     ];
 
     public function user()
