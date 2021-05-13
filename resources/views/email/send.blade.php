@@ -8,7 +8,7 @@ Send emails
       <div class="form-group">
             <label for="from" class="col-sm-1 control-label">From:</label>
             <div class="col-sm-12">
-                  <input type="email" class="form-control select2-offscreen" value="{{Auth::user()->email}}" id="from" name="from" placeholder="Type email" tabindex="-1">
+                  <input type="email" class="form-control select2-offscreen" value="{{Auth::user()->email}}" id="from" name="from" placeholder="Type email" tabindex="-1" required>
             </div>
       </div>
 
@@ -18,7 +18,7 @@ Send emails
                   <div class="row justify-content-sm-center">
                        
                         <div class="col-sm-7">
-                              <input type="email" class="form-control select2-offscreen" id="to" name="to" placeholder="Type email" tabindex="-1">
+                              <input type="email" class="form-control select2-offscreen" id="to" name="to" placeholder="Type email" tabindex="-1" required>
                         </div>
                         <div class="col-sm-4">
                               <select class="form-control input" name="to_sel" id="to_sel" >
@@ -52,7 +52,7 @@ Send emails
             <label for="cc" class="col-sm-1 control-label">Subject:</label>
             <div class="row justify-content-sm-center">
                   <div class="col-sm-7">
-                        <input type="text" class="form-control select2-offscreen" id="subject" name="subject" placeholder="Subject" tabindex="-1">
+                        <input type="text" class="form-control select2-offscreen" id="subject" name="subject" placeholder="Subject" tabindex="-1" required>
                   </div> 
                   <div class="col-sm-4">
                         <select class="form-control input" name="subject_sel" id="subject_sel" >
@@ -73,7 +73,7 @@ Send emails
       <div class="form-group">
             
             <div class="col-sm-12">
-                  <textarea class="form-control" id="message" name="body" rows="12" placeholder="Message"></textarea>
+                  <textarea class="form-control" id="message" name="body" rows="12" placeholder="Message" required></textarea>
                   <input type="file" name="files[]" multiple>
             </div>
       </div>
